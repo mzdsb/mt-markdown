@@ -125,6 +125,4 @@ import MTMarkdown from './components/MTMarkdown.vue'
 
 欢迎提交Issue和Pull Request来帮助改进这个项目！
 
-## 📄 许可证
 
-MIT License
