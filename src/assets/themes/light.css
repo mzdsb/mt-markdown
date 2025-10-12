@@ -1,0 +1,28 @@
+/**
+ * 明亮主题配色方案
+ * 
+ * CSS变量定义：
+ * --blue: 主色调蓝色，用于按钮、链接等交互元素
+ * --gray: 背景灰色，用于内容区域背景
+ * --yellow: 辅助黄色，用于强调或警告
+ * --background-image: 渐变背景，用于页面整体背景
+ */
+[data-theme="light"] {
+  --blue: #45d9fd;  /* 主色调 - 亮蓝色 */
+  --gray: #f4f7f7;  /* 背景色 - 浅灰色 */
+  --yellow: #faf5e2; /* 辅助色 - 淡黄色 */
+  --background-image: linear-gradient(
+    to bottom, 
+    #45d9fd,  /* 顶部蓝色 */
+    #71e3fb, 
+    #94edfa, 
+    #b2f6fc, 
+    #cfffff   /* 底部浅色 */
+  );
+  
+  /* MTMarkdown组件使用的变量 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #1a1a1a;
+  --border-color: #ddd;
+}
