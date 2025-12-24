@@ -74,23 +74,23 @@
   background: inherit;
 }
 
-/* 表格样式 */
-.preview table {
+/* 表格样式 - 使用 :deep() 穿透 v-html 生成的元素 */
+.preview :deep(table) {
   border-collapse: collapse;
   width: 100%;
   margin: 16px 0;
-  background: var(--bg-primary) !important;
+  background: var(--bg-primary);
 }
 
-.preview th,
-.preview td {
-  border: 1px solid var(--border-color) !important;
+.preview :deep(th),
+.preview :deep(td) {
+  border: 1px solid var(--border-color);
   padding: 8px 12px;
   text-align: left;
 }
 
-.preview th {
-  background-color: var(--bg-secondary) !important;
+.preview :deep(th) {
+  background-color: var(--bg-secondary);
   font-weight: bold;
 }
 
@@ -106,19 +106,19 @@
   font-weight: bold;
 }
 
-/* 任务列表样式 */
-.preview ul.contains-task-list {
+/* 任务列表样式 - 使用 :deep() 穿透 v-html 生成的元素 */
+.preview :deep(ul.contains-task-list) {
   list-style: none;
   padding-left: 0;
 }
 
-.preview .task-list-item {
+.preview :deep(.task-list-item) {
   display: flex;
   align-items: center;
   margin: 4px 0;
 }
 
-.preview .task-list-item input[type="checkbox"] {
+.preview :deep(.task-list-item input[type="checkbox"]) {
   margin-right: 8px;
 }
 
