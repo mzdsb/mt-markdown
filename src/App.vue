@@ -6,12 +6,12 @@ import StatusBar from './components/StatusBar.vue'
 import { useTheme } from './composables/theme'
 
 // 初始化主题 - 直接调用确保provide生效
-useTheme()
+const { theme } = useTheme()
 const content = ref('')
 </script>
 
 <template>
-  <div class="app-container">
+  <div class="app-container" :data-theme="theme">
     <MTMarkdown v-model="content"/>
     <StatusBar :content="content"/>
   </div>
@@ -25,7 +25,7 @@ const content = ref('')
   display: flex;
   flex-direction: column;
   padding: 10px;
-  /* overflow: hidden; */
-
+  background: var(--app-bg);
+  transition: background 0.3s ease;
 }
 </style>

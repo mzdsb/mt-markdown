@@ -92,7 +92,7 @@ const { theme } = inject('theme');
 
 // 监听主题变化
 watch(() => theme.value, (newVal) => {
-  // 仅更新编辑器容器的主题
+  // 更新编辑器容器的主题
   const editor = document.querySelector('.editor-container');
   if (editor) {
     editor.setAttribute('data-theme', newVal);
@@ -161,23 +161,99 @@ onMounted(() => {
 });
 
 /**
- * 更新代码高亮
- * 使用MutationObserver监听DOM变化并应用高亮
- * 使用highlight.js实现代码语法高亮
+ * 更新代码高亮并添加语言标签和复制按钮
  */
 function updateHighlight() {
   nextTick(() => {
     const preview = document.querySelector('.preview');
-    if (preview) {
-      preview.querySelectorAll('pre code').forEach(block => {
-        try {
-          hljs.highlightElement(block);
-        } catch (error) {
-          console.error('代码高亮失败:', error);
-        }
-      });
+    if (!preview) return;
+
+    const codeBlocks = preview.querySelectorAll('pre code');
+
+    codeBlocks.forEach((codeElement) => {
+      // 应用highlight.js高亮
+      try {
+        hljs.highlightElement(codeElement);
+      } catch (error) {
+        console.error('代码高亮失败:', error);
+      }
+
+      const preElement = codeElement.parentElement;
+
+      // 避免重复包装
+      if (preElement.parentElement?.classList.contains('code-block-wrapper')) {
+        return;
+      }
+
+      // 创建包装器
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block-wrapper';
+
+      // 提取语言名称
+      const language = extractLanguage(codeElement);
+
+      // 创建header
+      const header = createCodeHeader(language, codeElement.textContent);
+
+      wrapper.appendChild(header);
+      preElement.parentNode.insertBefore(wrapper, preElement);
+      wrapper.appendChild(preElement);
+    });
+  });
+}
+
+/**
+ * 从code元素提取语言名称
+ */
+function extractLanguage(codeElement) {
+  const classList = codeElement.className;
+  const match = classList.match(/language-(\w+)/);
+
+  if (match) {
+    return match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+  }
+  return 'Code';
+}
+
+/**
+ * 创建代码块header
+ */
+function createCodeHeader(language, code) {
+  const header = document.createElement('div');
+  header.className = 'code-header';
+
+  const languageSpan = document.createElement('span');
+  languageSpan.className = 'code-language';
+  languageSpan.textContent = language;
+
+  const copyButton = document.createElement('button');
+  copyButton.className = 'copy-button';
+  copyButton.setAttribute('aria-label', '复制代码');
+  copyButton.innerHTML = `
+    <span class="copy-icon">📋</span>
+    <span class="copy-text">复制</span>
+  `;
+
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      copyButton.classList.add('copied');
+      copyButton.querySelector('.copy-icon').textContent = '✓';
+      copyButton.querySelector('.copy-text').textContent = '已复制!';
+      setTimeout(() => {
+        copyButton.classList.remove('copied');
+        copyButton.querySelector('.copy-icon').textContent = '📋';
+        copyButton.querySelector('.copy-text').textContent = '复制';
+      }, 2000);
+    } catch (err) {
+      console.error('复制失败:', err);
     }
   });
+
+  header.appendChild(languageSpan);
+  header.appendChild(copyButton);
+
+  return header;
 }
 
 // 初始化高亮

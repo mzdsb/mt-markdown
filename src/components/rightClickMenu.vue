@@ -1,6 +1,6 @@
 <!-- 弹出包含 加粗、斜体、链接、列表、引用、复选框、段落（1-6级标题）、插入（代码块、表格） 等功能的菜单 -->
  <template id="rightClickMenu">
-    <div class="md-menu" @click.stop :style="`left:${props.left}px;top:${props.top}px`">
+    <div class="md-menu" :data-theme="injectedTheme" @click.stop :style="`left:${props.left}px;top:${props.top}px`">
          <!-- 文本格式组 -->
     <div class="menu-section">
       <h4 class="menu-section-title">文本格式</h4>
@@ -74,19 +74,22 @@
  </template>
 
  <script setup >
-    import { defineProps, defineEmits } from 'vue';
+    import { defineProps, defineEmits, inject } from 'vue';
 
 // 定义Props
 const props = defineProps([
-  'left', 
-  'top', 
-  'selectionStart', 
-  'selectionEnd', 
+  'left',
+  'top',
+  'selectionStart',
+  'selectionEnd',
   'currentValue'
 ]);
 
 // 定义事件
 const emit = defineEmits(['update-content', 'close-menu']);
+
+// 注入主题
+const { theme: injectedTheme } = inject('theme');
 
 // console.log(props);
 
@@ -342,18 +345,20 @@ const insertTable = () => {
 <style scoped>
 .md-menu {
   position: fixed;
-  background: #fff;
-  border: 1px solid #d1d5db;
+  background: var(--menu-bg);
+  border: 1px solid var(--menu-border);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--menu-shadow);
   padding: 8px 0;
   z-index: 9999;
   min-width: 280px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .menu-section {
   padding: 4px 8px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--menu-section-border);
+  transition: border-color 0.3s ease;
 }
 
 .menu-section:last-child {
@@ -363,9 +368,10 @@ const insertTable = () => {
 .menu-section-title {
   margin: 0 0 6px 0;
   font-size: 12px;
-  color: #64748b;
+  color: var(--menu-title-color);
   font-weight: 600;
   padding: 0 4px;
+  transition: color 0.3s ease;
 }
 
 .menu-items {
@@ -381,29 +387,32 @@ const insertTable = () => {
   border-radius: 4px;
   background: transparent;
   font-size: 14px;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 36px;
+  color: var(--menu-item-color);
 }
 
 .menu-item:hover {
-  background: #f1f5f9;
+  background: var(--menu-item-hover-bg);
 }
 
 .menu-item.header-item {
-  background-color: #f8fafc;
+  background-color: var(--menu-header-bg);
   font-weight: bold;
+  transition: background-color 0.2s, color 0.3s ease;
+  color: var(--menu-item-color);
 }
 
 .menu-item.header-item:hover {
-  background-color: #e2e8f0;
+  background-color: var(--menu-header-hover-bg);
 }
 
 .menu-item code {
   font-family: monospace;
-  background-color: #f1f5f9;
+  background-color: var(--menu-item-hover-bg);
   padding: 0 3px;
   border-radius: 2px;
 }

@@ -11,18 +11,6 @@
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-.editor-container[data-theme="dark"] {
-  --bg-primary: #1a1a1a;
-  --text-primary: #ffffff;
-  --border-color: #404040;
-}
-
-.editor-container[data-theme="light"] {
-  --bg-primary: #ffffff;
-  --text-primary: #1a1a1a;
-  --border-color: #ddd;
-}
-
 .editor {
   width: 80%;
   flex: 1;
@@ -49,18 +37,19 @@
 }
 
 .preview pre {
-  width: 800px;  /* 固定宽度 */
-  height: 400px;  /* 固定高度 */
+  width: 800px;
+  height: 400px;
   min-height: 400px;
-  max-width: 100%;  /* 确保在小屏幕上不会溢出 */
+  max-width: 100%;
   padding: 15px;
   margin: 10px auto;
-  background: #f8f9fa;
+  background: var(--code-block-bg, #f8f9fa);
   border-radius: 8px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid var(--code-block-border, #e9ecef);
+  box-shadow: 0 2px 8px var(--code-block-shadow, rgba(0,0,0,0.05));
   overflow: auto;
-  box-sizing: border-box;  /* 确保padding不会影响总宽高 */
+  box-sizing: border-box;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .preview pre code {
@@ -72,6 +61,70 @@
   line-height: 1.7;
   overflow: auto;
   background: inherit;
+}
+
+/* ================= 代码块Header ================= */
+.preview :deep(.code-block-wrapper) {
+  position: relative;
+  margin: 16px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--code-header-border);
+  background: var(--code-block-bg);
+  transition: border-color 0.3s ease;
+}
+
+.preview :deep(.code-header) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--code-header-bg);
+  border-bottom: 1px solid var(--code-header-border);
+  min-height: 40px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.preview :deep(.code-language) {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--code-language-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.preview :deep(.copy-button) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--code-copy-btn-bg);
+  border: 1px solid var(--code-copy-btn-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--code-copy-text);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.preview :deep(.copy-button:hover) {
+  background: var(--code-copy-btn-hover);
+  color: var(--toolbar-btn-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview :deep(.copy-button:active) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.preview :deep(.copy-button.copied) {
+  background: var(--toolbar-btn-hover-bg);
+  color: #ffffff;
 }
 
 /* 表格样式 - 使用 :deep() 穿透 v-html 生成的元素 */
@@ -157,11 +210,12 @@
 .button-group {
   display: flex;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--toolbar-bg);
   padding: 8px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--toolbar-shadow);
   backdrop-filter: blur(4px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* 图标按钮 */
@@ -170,18 +224,18 @@
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: #f0f2f5;
+  background: var(--toolbar-btn-bg);
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .icon-btn:hover {
-  background: #42b983;
+  background: var(--toolbar-btn-hover-bg);
   transform: translateY(-1px);
 }
 .icon-btn:hover .text {
-  color: white;
+  color: var(--toolbar-btn-hover-text);
 }
 
 /* 按钮图标 */
@@ -190,7 +244,7 @@
 }
 .text {
   font-size: 14px;
-  color: #333;
+  color: var(--toolbar-btn-text);
   transition: color 0.2s ease;
 }
 
@@ -201,13 +255,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--drop-overlay-bg);
   z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(8px);
   animation: fadeIn 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -218,9 +273,10 @@
 .drop-content {
   text-align: center;
   padding: 40px;
-  border: 2px dashed #42b983;
+  border: 2px dashed var(--drop-content-border);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--drop-content-bg);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .drop-icon {
@@ -231,8 +287,9 @@
 
 .drop-text {
   font-size: 18px;
-  color: #42b983;
+  color: var(--drop-text-color);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 /* ================= 动画效果 ================= */

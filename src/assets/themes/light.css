@@ -1,6 +1,6 @@
 /**
  * 明亮主题配色方案
- * 
+ *
  * CSS变量定义：
  * --blue: 主色调蓝色，用于按钮、链接等交互元素
  * --gray: 背景灰色，用于内容区域背景
@@ -8,21 +8,115 @@
  * --background-image: 渐变背景，用于页面整体背景
  */
 [data-theme="light"] {
-  --blue: #45d9fd;  /* 主色调 - 亮蓝色 */
-  --gray: #f4f7f7;  /* 背景色 - 浅灰色 */
-  --yellow: #faf5e2; /* 辅助色 - 淡黄色 */
+  /* 主色调 */
+  --blue: #45d9fd;
+  --gray: #f4f7f7;
+  --yellow: #faf5e2;
   --background-image: linear-gradient(
-    to bottom, 
-    #45d9fd,  /* 顶部蓝色 */
-    #71e3fb, 
-    #94edfa, 
-    #b2f6fc, 
-    #cfffff   /* 底部浅色 */
+    to bottom,
+    #45d9fd,
+    #71e3fb,
+    #94edfa,
+    #b2f6fc,
+    #cfffff
   );
-  
-  /* MTMarkdown组件使用的变量 */
+
+  /* 基础颜色 */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f5;
   --text-primary: #1a1a1a;
+  --text-secondary: #64748b;
   --border-color: #ddd;
+
+  /* 工具栏变量 */
+  --toolbar-bg: rgba(255, 255, 255, 0.9);
+  --toolbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --toolbar-btn-bg: #f0f2f5;
+  --toolbar-btn-hover-bg: #42b983;
+  --toolbar-btn-text: #333;
+  --toolbar-btn-hover-text: #ffffff;
+
+  /* 拖拽层变量 */
+  --drop-overlay-bg: rgba(255, 255, 255, 0.95);
+  --drop-content-bg: rgba(255, 255, 255, 0.9);
+  --drop-content-border: #42b983;
+  --drop-text-color: #42b983;
+
+  /* 右键菜单变量 */
+  --menu-bg: #ffffff;
+  --menu-border: #d1d5db;
+  --menu-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --menu-section-border: #f1f5f9;
+  --menu-title-color: #64748b;
+  --menu-item-color: #333333;
+  --menu-item-hover-bg: #f1f5f9;
+  --menu-header-bg: #f8fafc;
+  --menu-header-hover-bg: #e2e8f0;
+
+  /* 应用容器变量 */
+  --app-bg: #f4f7f7;
+  --app-scrollbar-track: #f1f3f5;
+
+  /* 代码块变量 */
+  --code-block-bg: #f8f9fa;
+  --code-block-border: #d0d7de;
+  --code-block-shadow: rgba(0, 0, 0, 0.05);
+
+  /* 代码块header变量 */
+  --code-header-bg: #f1f3f5;
+  --code-header-border: #d0d7de;
+  --code-language-text: #64748b;
+  --code-copy-btn-bg: #ffffff;
+  --code-copy-btn-border: #d0d7de;
+  --code-copy-btn-hover: #f0f2f5;
+  --code-copy-text: #333333;
+}
+
+/* 明亮主题：禁用暗色代码高亮，使用 github 主题 */
+[data-theme="light"] pre code.hljs {
+  background: #f6f8fa !important;
+  color: #24292e !important;
+}
+
+/* 覆盖 atom-one-dark 的语法高亮颜色为 github 风格 */
+[data-theme="light"] .hljs-comment,
+[data-theme="light"] .hljs-quote {
+  color: #6a737d !important;
+}
+
+[data-theme="light"] .hljs-keyword,
+[data-theme="light"] .hljs-selector-tag,
+[data-theme="light"] .hljs-subst {
+  color: #d73a49 !important;
+}
+
+[data-theme="light"] .hljs-number,
+[data-theme="light"] .hljs-literal,
+[data-theme="light"] .hljs-variable,
+[data-theme="light"] .hljs-template-variable,
+[data-theme="light"] .hljs-tag .hljs-attr {
+  color: #005cc5 !important;
+}
+
+[data-theme="light"] .hljs-string,
+[data-theme="light"] .hljs-doctag {
+  color: #032f62 !important;
+}
+
+[data-theme="light"] .hljs-title,
+[data-theme="light"] .hljs-section,
+[data-theme="light"] .hljs-selector-id {
+  color: #6f42c1 !important;
+}
+
+[data-theme="light"] .hljs-type,
+[data-theme="light"] .hljs-class .hljs-title {
+  color: #6f42c1 !important;
+}
+
+[data-theme="light"] .hljs-tag,
+[data-theme="light"] .hljs-name,
+[data-theme="light"] .hljs-attribute {
+  color: #22863a !important;
 }

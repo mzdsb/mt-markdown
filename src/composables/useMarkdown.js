@@ -61,7 +61,6 @@ export function useMarkdown(initialContent = '') {
   const sanitizeConfig = getSanitizeConfig()
 
   const markdown = ref(initialContent || `# Hello MT Markdown
-
 这是一个Markdown编辑器
 `)
 
