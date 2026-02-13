@@ -1,4 +1,4 @@
-<!-- 
+<!--
   Markdown编辑器主组件
   功能：
   1. 提供Markdown编辑和实时预览功能
@@ -11,7 +11,7 @@
     <!-- 工具栏 -->
     <div class="toolbar">
       <div class="button-group">
-        <button class="icon-btn" 
+        <button class="icon-btn"
           @click=" () => {
             isShowDrag = true;
             openFileDialog();
@@ -32,7 +32,7 @@
 
     <!-- 拖拽区域（仅在需要时显示） -->
     <transition name="fade">
-      <div 
+      <div
         v-show="isShowDrag"
         ref="dropZone"
         class="drop-overlay"
@@ -54,7 +54,7 @@
     <div class="preview" v-html="html"></div>
 
     <!-- 右键菜单 -->
-     <RightClickMenu 
+     <RightClickMenu
      v-if="isMenuShow"
       :left="menuLeft"
       :top="menuTop"
@@ -69,11 +69,11 @@
 
 <script setup >
 import { ref, nextTick, watch, onMounted, inject, shallowReactive } from 'vue';
-import { useMarkdown } from '../composables/useMarkdown';
-import { useFileHandler } from '../composables/useFileHandler';
-import { useDragAndDrop } from '../composables/drag';
+import { useMarkdown } from '../../composables/useMarkdown';
+import { useFileHandler } from '../../composables/useFileHandler';
+import { useDragAndDrop } from '../../composables/drag';
 
-import rightClickMenu from './rightClickMenu.vue';
+import rightClickMenu from '../rightClickMenu.vue';
 
 const props = defineProps({
   modelValue: {
@@ -85,7 +85,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
-import RightClickMenu from './rightClickMenu.vue';
+import RightClickMenu from '../rightClickMenu.vue';
 
 // 获取注入的主题
 const { theme } = inject('theme');
@@ -121,7 +121,7 @@ let observer = null;
  * 文件处理相关逻辑
  * 包括文件导入/导出和错误处理
  */
-const { 
+const {
   fileContent,
   errorMessage,
   openFileDialog,
@@ -304,24 +304,24 @@ function updateContent(newValue, cursorPos){
 function handleKeydown(e) {
   // 只处理回车键
   if (e.key !== 'Enter') return;
-  
+
   const textarea = textareaRef.value;
   if (!textarea) return;
-  
+
   const { selectionStart, value } = textarea;
-  
+
   // 获取当前行内容（从行首到光标位置）
   const lineStart = value.lastIndexOf('\n', selectionStart - 1) + 1;
   const currentLine = value.substring(lineStart, selectionStart);
-  
+
   // 检测列表格式
   const listMatch = detectListFormat(currentLine);
-  
+
   if (listMatch) {
     e.preventDefault(); // 阻止默认回车行为
-    
+
     const { type, prefix, number } = listMatch;
-    
+
     // 根据列表类型生成新的列表项
     let newPrefix;
     if (type === 'checkbox') {
@@ -331,10 +331,10 @@ function handleKeydown(e) {
     } else {
       newPrefix = prefix; // 无序列表保持相同前缀
     }
-    
+
     // 插入新的列表项
     const newText = value.substring(0, selectionStart) + '\n' + newPrefix + value.substring(selectionStart);
-    
+
     // 更新内容并设置光标位置
     const newCursorPos = selectionStart + newPrefix.length + 1; // +1 是因为换行符
     updateContent(newText, newCursorPos);
@@ -356,7 +356,7 @@ function detectListFormat(line) {
       number: null
     };
   }
-  
+
   // 检测有序列表格式：1. 2. 等
   const orderedMatch = line.match(/^(\s*)(\d+)\.\s+/);
   if (orderedMatch) {
@@ -366,7 +366,7 @@ function detectListFormat(line) {
       number: parseInt(orderedMatch[2])
     };
   }
-  
+
   // 检测无序列表格式：- 或 * 或 +
   const unorderedMatch = line.match(/^(\s*)([-*+]\s+)/);
   if (unorderedMatch) {
@@ -376,7 +376,7 @@ function detectListFormat(line) {
       number: null
     };
   }
-  
+
   return null;
 }
 
@@ -387,5 +387,5 @@ watch(markdown, () => {
 </script>
 
 <style scoped>
-@import '../assets/styles/MTMarkdown.css';
+@import '../../assets/styles/MTMarkdown.css';
 </style>

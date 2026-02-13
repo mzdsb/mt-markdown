@@ -9,6 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@milkdown/core": "^7.18.0",
+    "@milkdown/preset-commonmark": "^7.18.0",
+    "@milkdown/preset-gfm": "^7.18.0",
+    "@milkdown/theme-nord": "^7.18.0",
+    "@milkdown/vue": "^7.18.0",
     "@vueuse/core": "^13.0.0",
     "dompurify": "^3.2.4",
     "file-saver": "^2.0.5",
